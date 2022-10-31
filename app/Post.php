@@ -18,8 +18,21 @@ class Post extends Model
         'category_id',
     ];
     
+    /**
+     * 1対多のため複数形になる。（１つの投稿に対して複数のコメントがある。）
+     * 多の方のためにhasMany
+     */
+    public function comments(){
+        return $this->hasMany('App\Comment');
+    }
+    
     function getPaginateByLimit(int $limit_count = 5)
     {
         return $this::with('category')->orderBy('updated_at', 'DESC')->paginate($limit_count);
+    }
+
+    public function getByComment(int $limit_count = 5)
+    {
+        return $this->comments()->with('post')->get();
     }
 }
