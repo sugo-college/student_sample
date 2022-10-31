@@ -24,8 +24,25 @@
                 <p>{{ $post->body }}</p>
             </div>
         </div>
-        
-        
+
+        <h2 class = "comment_title">コメント</h2>
+        @foreach($comments as $comment)
+            <p>{{ $comment->content }}  {{ $comment->user->name }}</p>
+        @endforeach
+
+        <form action = "/posts/{{ $post->id }}" method = "POST">
+            @csrf
+            {{-- <div class = "comment_body"> --}}
+                
+                <textarea name = "comment[content]" placeholder = "コメントする" ></textarea>
+                <input type = "hidden" name = "comment[post_id]" value = {{ $post->id }} />
+                <input type = "hidden" name = "comment[user_id]" value = {{ Auth::user()->id }} />
+            {{-- </div> --}}
+
+            <input type="submit" value="コメントする"/>
+        </form>
+
+            
         <div class = "footer">
             <a href = "/">戻る</a>
         </div>

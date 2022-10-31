@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Category;
+use App\Comment;
 // use App\User;
 //use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
@@ -19,7 +20,8 @@ class PostController extends Controller
     
     public function show (Post $post)
     {   
-        return view('posts/show')->with(['post' => $post]);
+        return view('posts/show')->with(['post' => $post, 'comments' => $post->getByComment()]);
+        //return view('posts/show')->with(['post' => $post]);
     }
     
     public function edit(Post $post)
