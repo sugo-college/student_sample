@@ -16,6 +16,7 @@ class Post extends Model
         'title',
         'body',
         'category_id',
+        'user_id'
     ];
     
     /**
@@ -28,11 +29,21 @@ class Post extends Model
     
     function getPaginateByLimit(int $limit_count = 5)
     {
-        return $this::with('category')->orderBy('updated_at', 'DESC')->paginate($limit_count);
+        return $this::with(['category', 'user'])->orderBy('updated_at', 'DESC')->paginate($limit_count);
     }
 
     public function getByComment(int $limit_count = 5)
     {
         return $this->comments()->with('post')->get();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User')->withTimestamps();
     }
 }
